@@ -15,9 +15,9 @@ System requirements:
 
 External tools used by MOLLY (REQUIRED to be installed on the local machine):
 - Mathsat v5.3.8 (Available from http://mathsat.fbk.eu/downloadall.html)
-- z3 v4.4.1 (Currently used in case of RPFPA abstraction only for performing 
-consistency cross-checks at different points in the code. Available from 
-https://github.com/Z3Prover/z3/releases)
+- z3 v4.4.1 (Available from https://github.com/Z3Prover/z3/releases). 
+  PLEASE make sure z3 is compiled from source, and not obtained via a binary or 
+  a precompiled linuz distro (Ubuntu) package. 
 - dReal v3.16.12 available from http://dreal.github.io/download/
 
 
