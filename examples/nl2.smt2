@@ -1,0 +1,6 @@
+(declare-const x Real)
+(declare-const y Real)
+(set-option :pp-decimal true)
+(assert (= (* (* x x) x) 10.0))
+(check-sat)
+(get-model)

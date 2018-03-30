@@ -1,0 +1,8 @@
+#!/bin/sh
+dir='/home/jaideep/repositories/fpa-heterogeneous/decision-procedure/abstraction/code/misc/benchmarks/'
+for file in `ls ${dir}/converted/`
+ do
+  echo $file
+  cp ${dir}converted/${file} ${dir}/z3-ijcar/.
+  sed -i.bak s/\(check-sat\)/\(apply\ fpa2bv_approx\)\\n\(check-sat\)/g ${dir}/z3-ijcar/$file
+ done

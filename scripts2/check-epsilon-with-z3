@@ -1,0 +1,8 @@
+#!/bin/bash
+time mathsat -model examples/polynomials/epsilon/square.smt2
+time mathsat -model examples/polynomials/epsilon/prod.smt2
+time mathsat -model examples/polynomials/epsilon/cube.smt2
+time mathsat -model examples/polynomials/epsilon/x4.smt2
+time mathsat -model examples/polynomials/epsilon/x6.smt2
+time mathsat -model examples/polynomials/epsilon/prod2.smt2
+time mathsat -model examples/polynomials/epsilon/diff-squares2.smt2

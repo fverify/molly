@@ -1,0 +1,88 @@
+---README---
+** MOLLY: floating-point solver (model lifter) **
+
+The goal of this release is to able to reproduce the evaluation results presented in the doctoral dissertation of Jaideep Ramachandran, titled "From the Approximate to the Exact: Solving Floating-Point Formulas via Proxy Theories", Northeastern University, Boston (2018). To this end, the source code (and binaries for one platform) are being provided. 
+
+All evaluation was conducted on a machine with Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz having 8 GB RAM running Ubuntu 16.04. This is also the platform for which the binaries are being supplied.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+System requirements:
+- Linux-based system (tested on Ubuntu 14.04 and 16.04 LTS, on an x86_64 machine)
+- Python (tested with python v2.7.6)
+- gcc (tested with gcc v4.8.2)
+- Python library gmpy2 (install the latest version, say, using a package manager)
+- Racket (tested with Racket v5.3.5) [required ONLY IF compiling sources]
+
+External tools used by MOLLY (REQUIRED to be installed on the local machine):
+- Mathsat v5.3.8 (Available from http://mathsat.fbk.eu/downloadall.html)
+- z3 v4.4.1 (Currently used in case of RPFPA abstraction only for performing 
+consistency cross-checks at different points in the code. Available from 
+https://github.com/Z3Prover/z3/releases)
+- dReal v3.16.12 available from http://dreal.github.io/download/
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Compiling instruction (from top-level directory):
+./compile
+(the above step compiles and puts some executables in the directory bin/), and
+generates the executable to_decimal in the directory scripts/. Racket
+binaries/utilities (e.g., raco) should be in your environment's PATH.
+The directory bin/ should be in your environment's PATH.
+Note that compilation needs to be repeated ONLY IF any of the .rkt or .c files are modified. 
+In particular, changing any of the python code does not require issuing the "./compile" command.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+You may need to remark the file solve_rp.py as an executable (say, using chmod +x) on the system on which it is being run.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Running instruction (command line usage):
+
+MOLLY(RA)
+./solve_rp.py -a <abstraction> -smt2 <formula_file.smt2>
+Example usage:
+./solve_rp.py -a real -smt2 misc/benchmarks/griggio/sqrt.c.5.smt2
+
+MOLLY(RPFPA)
+./solve_rp.py -a lfp -smt2 <formula.smt2>
+./solve_rp.py -a lfp -cfg <config-file> -fml <formula.fml>
+Example usages:
+./solve_rp.py -a lfp -smt2 misc/benchmarks/griggio/div2.c.30.smt2
+./solve_rp.py -a lfp -cfg examples/single-prec-modified2.cfg -fml examples/polynomials/fml/diff-squares2.fml
+
+MOLLY(dReal):
+./solve_rp.py -a approx -cfg examples/single-prec-modified2.cfg -fml examples/polynomials/fml/prod.fml
+
+Note that for each run of MOLLY, there are two files created as output in addition to the data seen on the screen: (1) "summary.txt": which tells which iteration on which the solving succeeded, whether it used model lifting and if so, if using it was successful. Also gives the solving time, (2) "individual.txt": which specifies the amount of time spent on the proxy theory solving step as well as the model lifting step in each iteration.
+
+Apologies for the large output presented on the screen when running MOLLY: these messages were intended to provide useful information on different stages of MOLLY's solving process. 
+
+APPROX:
+- To run our implemetation of APPROX, we need to disable model lifting by editing line 39 of solve_rp.py as 
+self.no_lifting = True
+The call to run it is same as that to run MOLLY(RPFPA), for instance:
+./solve_rp.py -a lfp -smt2 misc/benchmarks/griggio/div2.c.30.smt2
+Please remember to switch back the "no_lifting" flag to run MOLLY!
+
+MATHSAT:
+mathsat -input=smt2 -theory.eq_propagation=false -printer.fp_number_format=1 -theory.fp.bit_blast_mode=1 -model misc/benchmarks/converted/test_v7_r7_vr1_c1_s4574.smt2
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The configuration MOLLY(MRFPA) is feasible only for linear input formulas. Since this is highly limited in scope, the current version of MOLLY has this configuration disabled, to avoid code complexity introduced by refinement of formulas and introduction of mixed operators. Please request the author for the version of the tool that has support for this configuration, and it can be made available. The efficiency and effectiveness claims in the experimental evaluation section do not involve these linear benchmarks involving non-associativity of FPA (These are the only benchmarks in our setup that are successfully solved by MOLLY(MRFPA) when using formula refinement). Note that MOLLY(RA), the most succeesful configuraion on public non-linear benchmarks, is readily available.
+
+A bunch of scripts for automating different tasks is provided in the directory "scripts2/". You may need to adapt these a little, for instance, replacing full path names with the corresponding full pathnames on your local system. These scripts are not required to validate the experimental results of the dissertation, and are provided only for convenience.
+
+Combined Strategy:
+This is not yet automated, so after the time out for an individual solver, we need to call the next solver as specified by the combined strategy in Ch.7.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+BENCHMARKS:
+Present in two different directories:
+
+- Set I: Public Non-linear Benchmarks in the directory "misc/benchmarks/griggio/"
+There are a total of 213 benchmarks here, from the FMCAD12/FMSD13 suite. The subset of 22 non-linear benchmarks reported in the dissertation in detail are listed in the file "data/lifting_applicable2.txt".
+
+- Set II: False Identity benchmarks in the directory "examples/polynomials/fml/"
+These are the 15 non-linear examples, listed in "data/poly1.txt".
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

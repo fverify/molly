@@ -1,0 +1,5 @@
+(declare-const x Real)
+(declare-const y Real)
+(assert (= (+ (* x x) y) 10.0))
+(check-sat)
+(get-model)

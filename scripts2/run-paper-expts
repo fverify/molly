@@ -1,0 +1,21 @@
+#!/bin/bash
+#run Mathsat on all benchmarks
+# on non-linear 
+python scripts2/run-mathsat.py poly1.txt | tee data/mathsat-poly1-May15.txt
+# on subset of FMSD 
+python scripts2/run-mathsat.py lifting_applicable2.txt | tee data/mathsat-lifting-applicable2-May15.txt
+
+#run Z3 on all all benchmarks
+# on non-linear
+python scripts2/run-z3.py poly1.txt | tee data/z3-poly1-May15.txt
+# on subset of FMSD 
+python scripts2/run-z3.py lifting_applicable2.txt | tee data/z3-lifting-applicable2-May15.txt
+
+# run Approx* (our tool with model lifting turned off) on all
+# on non-linear
+python scripts2/run-realizerpp.py poly1.txt | tee data/approx-poly1-May15.txt
+#on subset of FMSD
+python scripts2/run-realizerpp.py lifting_applicable2.txt | tee data/approx-fmsd-May15.txt
+
+# MOLLY with all vars selected, and no bounds on subset of FMSD
+#python scripts2/run-realizerpp.py lifting_applicable2.txt | tee data/realizerpp-fmsd-policy1-unbounded-May15.txt

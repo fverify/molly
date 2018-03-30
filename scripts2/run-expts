@@ -1,0 +1,11 @@
+#!/bin/bash
+#python scripts2/get-epsilon.py poly1.txt | tee data/Apr23-results/range-epsilon-run-poly-Apr24.txt
+#python scripts2/get-epsilon.py poly1.txt | tee data/epsilon-run-poly4-May14.txt
+#python scripts2/run-realizerpp.py all-fmsd-files.txt #| tee data/realizerpp-April19-all-fmsd.txt
+
+#python scripts2/run-realizerpp.py lifting_applicable2.txt | tee data/Apr28-results/molly-Apr28-rpfpa-fmsd-ranked-high-unbounded-symb.txt
+
+#Run Mathsat on 22 FMSD examples
+./scripts2/run-mathsat-expts
+#Run Approx on 22 FMSD examples
+./scripts2/run-realizerpp-expts

@@ -1,0 +1,41 @@
+#!/bin/bash
+CFG_FILE="single-prec-modified2.cfg"
+#LOG_DIR="misc/assoc-Nov18/real/1/"
+LOG_DIR="data/Apr28-results/"
+#delta="0.0000001"
+cd ../
+# save stdout and stderr to file descriptors 3 and 4, then redirect them to "foo"
+#exec 3>&1 4>&2 >foo 2>&1
+#exec > foo2                                                                   
+#exec 2>&1
+exec 2> time-no-lift.txt
+#delta=0.025
+for i in {35..65..5}
+#{3..30}
+do
+  #timeout -s SIGKILL 1200s python2.7 solve.py examples/fml/assoc-$i-$delta.fml examples/$CFG_FILE | tee logs/assoc-$i-$delta.log
+  #echo $i"Hello" | tee time.txt
+  #time timeout -s SIGKILL 1200s python2.7 solve.py examples/fml/assoc-$i.fml examples/$CFG_FILE > $LOG_DIR/assoc-$i-no-lift.log real
+  time timeout -s SIGKILL 1200s ./solve_rp.py -a lfp -fml examples/fml/assoc-$i.fml -cfg examples/$CFG_FILE > $LOG_DIR/approx-Apr28-rpfpa-assoc.txt
+  #cat examples/fml/assoc-$i.fml | ./bin/translator examples/$CFG_FILE var-list.txt | head -n -2 > $LOG_DIR/assoc-$i-check.smt2; 
+  #cat assignments/assoc-$i-check.asn >> $LOG_DIR/assoc-$i-check.smt2
+  #echo -e "\n(check-sat)\n" >> $LOG_DIR/assoc-$i-check.smt2
+  #asn=`cat assignments/assoc-$i-check.asn`
+  #if [ "" == "$asn" ]; then
+  #      echo $i " : No satisfying assignment available to check!"
+  #	continue
+  #fi
+  #res=$(z3 -T:600 $LOG_DIR/assoc-$i-check.smt2)
+  #if [ "sat" == "$res" ]; then
+#	echo $i " : Checked satisfying assignment"
+#  else
+#	echo $i " : Error in checking satisfying assignment! "$res
+#  fi
+done  
+# restore stdout and stderr
+#exec 1>&3 2>&4
+
+#for i in {4..6}
+#do
+#  echo $i
+#done | parallel -j 4 "time timeout -s SIGKILL 1200s python2.7 solve.py examples/fml/assoc-{}.fml examples/$CFG_FILE | tee logs/assoc-{}-even.log"

@@ -1,0 +1,36 @@
+#!/bin/bash
+start_time=$(date +'%s')
+POLYLISTFILE="/home/jaideep/repositories/fpa-heterogeneous/decision-procedure/abstraction/code/data/poly1.txt"
+FMSDLISTFILE="/home/jaideep/repositories/fpa-heterogeneous/decision-procedure/abstraction/code/data/lifting_applicable2.txt"
+ROOTDIR="/home/jaideep/repositories/fpa-heterogeneous/decision-procedure/abstraction/code"
+TENHASHES="##########"
+TENAMPERSANDS="&&&&&&&&&&"
+precision=1.0
+OUTPUTFILE=$ROOTDIR/data/Feb22-2018-results/dreal-$precision"-poly1.txt"
+exec 3>&1 4>&2 >$OUTPUTFILE 2>&1
+echo -e "RUN DESCRIPTION\n"
+echo -e "-- This file contains the output when using dReal independently (outside of MOLLY) with the default tool precision.\n-- The command used was:\n'time timeout 1200 dReal --precision 0.001 <filename>'.\n-- The files used are listed in \n"$POLYLISTFILE"\n       AND\n"$FMSDLISTFILE"\n-- Run started on "`date`" on "`uname -n`".\n\n"
+#Running on the False identity polynomials set of 15
+for POLYFILE in $(cat $POLYLISTFILE)
+do
+ echo "$TENHASHES"$POLYFILE"$TENHASHES"
+ time timeout 1200 dReal --model --precision "$precision" $ROOTDIR/examples/polynomials/smt2/for-numerical/dreal/$POLYFILE 
+ echo "$TENAMPERSANDS"$POLYFILE"$TENAMPERSANDS"
+ echo $TENHASHES"$TENHASHES"$TENHASHES"$TENHASHES"
+ #break
+done
+exit
+
+#Running on the FMSD set of 22
+for FMSDFILE in $(cat $FMSDLISTFILE)
+do
+ echo "$TENHASHES"$FMSDFILE"$TENHASHES"
+ time timeout 1200 dReal --model --precision "$precision" $ROOTDIR/examples/polynomials/smt2/for-numerical/dreal/$FMSDFILE
+ echo "$TENAMPERSANDS"$FMSDFILE"$TENAMPERSANDS"
+ echo $TENHASHES"$TENHASHES"$TENHASHES"$TENHASHES"
+ #break
+done
+finish_time=$(date +'%s')
+echo "- Entire run finished on "`date`" on "`uname -n`", taking ~"$(($(date +'%s') - $start_time))" seconds"
+#restore
+exec 1>&3 2>&4

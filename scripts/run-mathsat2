@@ -1,0 +1,35 @@
+#!/usr/bin/python
+import sys,os,subprocess #datetime
+from time import *
+OUTPUT_FILENAME="../console-Nov19-mathsat-assoc2.txt"
+f1=open(OUTPUT_FILENAME,"w")
+#f1.write("mathsat output for assoc problems: lhs > rhs, prec 23, rnd-to-nearest-even, range: lowest normal FP value to 1024.0\n")
+#f1.close()
+low = 35
+high = 65
+step = 5
+index = low
+while index <= high:# segfault for mathsat-assoc-3?
+        f1.write(str("\n##########\nIndex ")+str(index)+" example started at "+str(time()))
+        f1.flush()
+        #start_time = datetime.datetime.now().replace(microsecond=0)
+	#print str(i)+" "
+	#string="cat acc-red/acc-red-mathsat-"+str(i)+".smt2 | mathsat -theory.fp.mode=2 -theory.eq_propagation=false -model -stats | tee -a "+OUTPUT_FILENAME+";echo 'ACDCL: Done above for "+str(i)+" variables' >> "+OUTPUT_FILENAME
+        #os.system(string)
+        #end_time = datetime.datetime.now().replace(microsecond=0)
+        #print "Time taken for "+str(i)+" variables: "+str(end_time - start_time)
+	#start_time = datetime.datetime.now().replace(microsecond=0)
+        start_time = time()
+        #string="cat ../examples/mathsat/smtlib/mathsat2-assoc-"+str(index)+".smt2 | mathsat -model -printer.fp_number_format=0 | tee -a "+OUTPUT_FILENAME+";echo 'Bit-blasting: Done above for "+str(index)+" variables' >> "+OUTPUT_FILENAME
+        #os.system(string)
+        output2 = subprocess.check_output(('timeout','-s','SIGKILL','1200s','mathsat','-input=smt2','-printer.fp_number_format=0','-model',"../examples/mathsat/smtlib/mathsat2-assoc-"+str(index)+".smt2"), stderr=subprocess.STDOUT)
+        #end_time = datetime.datetime.now().replace(microsecond=0)
+        end_time = time()
+        f1.write("\nStart time for index "+str(index)+": "+str(start_time)+"\n")
+        f1.write("End time for index "+str(index)+": "+str(end_time)+"\n")
+        f1.write("Time taken for index "+str(index)+": "+str(end_time - start_time)+"\n")
+        f1.write(output2+"\n")
+        f1.flush()
+        #print "Bit-blasting: Time taken for "+str(index)+" variables: "+str(end_time - start_time)
+        index = index + step
+f1.close()

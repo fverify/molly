@@ -1,0 +1,17 @@
+#!/bin/bash
+start_time=$(date +'%s')
+exec 3>&1 4>&2 >output28Apr2017-rpfpa-false-identity-low-to-high-unbounded-symb.txt 2>&1
+#python scripts2/run-realizerpp.py shortlist.txt | tee data/realizerpp-April19-shortlist.txt
+#python scripts2/run-realizerpp.py all-fmsd-files.txt #| tee data/realizerpp-April19-all-fmsd.txt
+#python scripts2/run-realizerpp.py all-fmsd-files.txt | tee data/realizerpp-July30-all-fmsd.txt
+#python scripts2/run-realizerpp.py lifting_applicable2.txt | tee data/Aug4-results/molly-Aug4-fmsd-policy5-bounded.txt
+#python scripts2/run-realizerpp.py poly1.txt | tee data/Aug4-results/molly-Aug4-poly1-policy5-bounded.txt
+#python scripts2/run-realizerpp.py poly1.txt | tee data/Aug4-results/molly-Aug4-poly1-policy5-unbounded.txt
+#python scripts2/run-realizerpp.py poly1.txt 1 | tee data/Apr28-results/molly-Apr28-dreal-fmsd-notranked-unbounded-symb.txt
+python scripts2/run-realizerpp.py poly1.txt 1 | tee data/Apr28-results/molly-Aprr28-rpfpa-false-identity-low-to-high-unbounded-symb.txt
+#python scripts2/run-realizerpp.py poly1.txt 1 | tee data/Apr28-results/molly-Apr28-rpfpa-false-identity-high-unbounded-symb.txt
+finish_time=$(date +'%s')
+echo $finish_time
+echo "- Entire run finished on "`date`" on "`uname -n`", taking ~"$(($(date +'%s') - $start_time))" seconds"
+#restore
+exec 1>&3 2>&4

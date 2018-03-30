@@ -1,0 +1,5 @@
+echo "Compiling a bunch of .rkt files; may take 0.5 to 2 min depending on system speed"
+raco exe get-arith-vars.rkt; raco exe  parser-generator.rkt; raco exe translator.rkt;  raco dist . get-arith-vars parser-generator translator; rm get-arith-vars; rm parser-generator; rm translator;
+echo "Compilation of .rkt files completed; compiling to_decimal.c"
+gcc -lm -o scripts/to_decimal scripts/to_decimal.c
+echo "Exiting"

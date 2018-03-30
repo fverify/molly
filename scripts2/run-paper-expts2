@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+#python scripts2/run-realizerpp.py poly1.txt | tee data/approx-poly1-May15.txt
+
+
+python scripts2/run-mathsat.py lifting_applicable2.txt | tee data/mathsat-lifting-applicable2-May15.txt
+
+
+python scripts2/run-z3.py lifting_applicable2.txt | tee data/z3-lifting-applicable2-May15.txt

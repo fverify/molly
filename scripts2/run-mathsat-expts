@@ -1,0 +1,5 @@
+#!/bin/bash
+#python scripts2/run-mathsat.py shortlist.txt | tee data/mathsat-April19-shortlist.txt
+#python scripts2/run-mathsat.py all-fmsd-files.txt | tee data/mathsat-April19-all-fmsd.txt
+python scripts2/run-mathsat.py lifting_applicable2.txt | tee data/Apr28-results/mathsat-fmsd.txt
+#python scripts2/run-mathsat.py poly1.txt | tee data/Apr28-results/mathsat-false-identity.txt

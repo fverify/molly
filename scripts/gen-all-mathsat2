@@ -1,0 +1,9 @@
+#!/usr/bin/python
+import sys,os
+low = 5
+high = 65
+step = 5
+index = low
+while index <= high:
+	os.system('./gen-accumulation-reduction-mathsat2-smtlib '+str(index)+' | sed \"s/\\"//g\" | tee ../examples/mathsat/smtlib/mathsat2-assoc-'+str(index)+'.smt2')
+	index = index + step

@@ -1,0 +1,5 @@
+#!/bin/bash
+python scripts2/run-realizerpp.py lifting_applicable3_sat.txt | tee data/May2_realizerpp_lifting_applicable3_sat.txt
+mathsat -model misc/benchmarks/converted/sine.1.0.i.smt2 | tee data/sine.1.0.txt
+mathsat -model misc/benchmarks/converted/sine.2.0.i.smt2 | tee data/sine.2.0.txt
+mathsat -model misc/benchmarks/converted/sine.3.0.i.smt2 | tee data/sine.3.0.txt

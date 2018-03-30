@@ -1,0 +1,15 @@
+square.smt2
+prod.smt2
+quad.smt2
+cube.smt2
+sine.smt2
+x4.smt2
+x6.smt2
+prod2.smt2
+diff-squares2.smt2
+y3-epsilon.smt2
+y3.smt2
+diff-squares.smt2
+horner1.smt2	
+one-by-x.smt2
+e.smt2

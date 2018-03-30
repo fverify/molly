@@ -1,0 +1,5 @@
+#!/bin/bash
+#python scripts2/run-z3.py shortlist.txt | tee data/z3-April22-shortlist.txt
+#python scripts2/run-z3.py all-fmsd-files.txt | tee data/z3-April22-all-fmsd.txt
+#used poly1.txt for compiler type polynomials
+python scripts2/run-z3.py lifting_applicable2.txt | tee data/Feb8-results/z3-real-fmsd.txt
